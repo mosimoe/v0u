@@ -16,53 +16,87 @@ import { Button } from "@/components/ui/button"
 
 export function Track() {
   const [currentStep, setCurrentStep] = useState(1)
+  const [expiryDate, setExpiryDate] = useState('');
+  const [isBackspace, setIsBackspace] = useState(false);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Backspace') {
+      setIsBackspace(true);
+    } else {
+      setIsBackspace(false);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    console.log(event)
+    let value = event.target.value.replace(/\D/g, ''); // 移除所有非数字字符
+    if (value.length > 4) {
+      value = value.slice(0, 4); // 限制输入长度为4
+    }
+    if (value.length >= 2 && !(isBackspace && expiryDate.length == 3)) {
+      value = value.slice(0, 2) + '/' + value.slice(2); // 在前两位之后插入斜杠
+    }
+    setExpiryDate(value);
+  };
+
   return (
     <div className="bg-[#fff] flex min-h-[100dvh] flex-col">
       <header className="flex h-16 items-center justify-between px-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <MenuIcon className="h-8 w-8" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              <Link href="#" prefetch={false}>
+                About
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="#" prefetch={false}>
+                Contact
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href="#" prefetch={false}>
+                FAQ
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Link href="#" prefetch={false}>
-          <UsbIcon className="h-6 w-6" />
+          <img className="h-12 w-12" src="https://www.usps.com/assets/images/home/logo_mobile.svg" />
         </Link>
         <div className="flex items-center gap-4">
           <Link href="#" prefetch={false}>
-            <SearchIcon className="h-6 w-6" />
+            <SearchIcon className="h-8 w-8" />
           </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <MenuIcon className="h-6 w-6" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Link href="#" prefetch={false}>
-                  About
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="#" prefetch={false}>
-                  Contact
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href="#" prefetch={false}>
-                  FAQ
-                </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+
         </div>
       </header>
       <main className="flex-1">
-        <section className="bg-muted py-8 px-4">
-          <h1 className="text-2xl font-bold">USPS Tracking</h1>
-          <p className="text-muted-foreground">Enter your tracking number to check the status of your package.</p>
+        <section className="bg-muted py-4 px-4">
+          <h1 className="text-2xl font-bold text-primary">USPS Tracking</h1>
+          <p className="text-muted-foreground">Tracking Number: US9514902296532</p>
+        </section>
+        <section className="bg-muted py-8 px-4 space-y-4">
+          <h1 className="text-xl font-bold text-primary">Status</h1>
+          <p className="font-bold text-xl text-red">We have issues with your shipping address</p>
+          <p className="text-muted-foreground">You can schedule redelivery online by filling out your information, We ReDeliver for You!</p>
+          <p className="text-muted-foreground">Redeliveries can be scheduled online 24 hours a day, 7 days a week. For same-day Redelivery, make sure your request is submitted by 2 AM CST Monday-Saturday or your Redelivery will be scheduled for the next day.</p>
         </section>
         <section className="px-4 py-8">
           <div>
             {currentStep === 1 && (
               <div>
-                <h2 className="text-lg font-bold">Address Details</h2>
+                <h2 className="text-lg font-bold text-primary">Verify Address</h2>
                 <form className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
+                    <Label htmlFor="name">First Name</Label>
+                    <Input id="name" placeholder="Enter your name" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Last Name</Label>
                     <Input id="name" placeholder="Enter your name" />
                   </div>
                   <div className="space-y-2">
@@ -81,7 +115,9 @@ export function Track() {
                     <Label htmlFor="zip">ZIP Code</Label>
                     <Input id="zip" placeholder="Enter your ZIP code" />
                   </div>
-                  <Button onClick={() => setCurrentStep(2)}>Next</Button>
+                  <div className="flex justify-center w-full ">
+                    <Button onClick={() => setCurrentStep(2)} >Continue</Button>
+                  </div>
                 </form>
               </div>
             )}
@@ -100,14 +136,16 @@ export function Track() {
                   <div className="grid grid-cols-3 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="expiration-date">Expiration Date</Label>
-                      <Input id="expiration-date" placeholder="MM/YY" />
+                      <Input id="expiration-date" placeholder="MM/YY" onChange={handleInputChange} value={expiryDate} onKeyDown={handleKeyDown}/>
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="cvv">CVV</Label>
                       <Input id="cvv" placeholder="CVV" />
                     </div>
                   </div>
-                  <Button onClick={() => setCurrentStep(3)}>Next</Button>
+                  <div className="flex justify-center w-full ">
+                  <Button onClick={() => setCurrentStep(3)}>Continue</Button>
+                  </div>
                 </form>
               </div>
             )}
@@ -126,7 +164,7 @@ export function Track() {
       <footer className="bg-muted py-8 px-4">
         <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-y-8">
           <div className="space-y-2">
-            <h3 className="text-lg font-bold">Helpful Links</h3>
+            <h4 className="text-lg font-bold">HELPFUL LINKS</h4>
             <ul className="space-y-1">
               <li>
                 <Link href="#" className="text-muted-foreground hover:underline" prefetch={false}>
@@ -152,7 +190,7 @@ export function Track() {
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-lg font-bold">Contact</h3>
+            <h4 className="text-lg font-bold">ON ABOUT.USPS.COM</h4>
             <ul className="space-y-1">
               <li>
                 <Link href="#" className="text-muted-foreground hover:underline" prefetch={false}>
@@ -177,7 +215,7 @@ export function Track() {
             </ul>
           </div>
           <div className="space-y-2">
-            <h3 className="text-lg font-bold">Legal</h3>
+            <h4 className="text-lg font-bold">Legal INFOMATION</h4>
             <ul className="space-y-1">
               <li>
                 <Link href="#" className="text-muted-foreground hover:underline" prefetch={false}>
@@ -197,7 +235,7 @@ export function Track() {
             </ul>
           </div>
         </div>
-        <div className="text-muted-foreground mt-4 text-center">&copy; 2024 USPS. All rights reserved.</div>
+        <div className="text-muted-foreground mt-4 text-center">Copyright &copy;2024 USPS. All Rights Reserved.</div>
       </footer>
     </div>
   )
@@ -245,28 +283,3 @@ function SearchIcon(props) {
   )
 }
 
-
-function UsbIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="10" cy="7" r="1" />
-      <circle cx="4" cy="20" r="1" />
-      <path d="M4.7 19.3 19 5" />
-      <path d="m21 3-3 1 2 2Z" />
-      <path d="M9.26 7.68 5 12l2 5" />
-      <path d="m10 14 5 2 3.5-3.5" />
-      <path d="m18 12 1-1 1 1-1 1Z" />
-    </svg>
-  )
-}

@@ -21,11 +21,11 @@ const config: Config = {
             "background": "hsl(var(--background))",
             "foreground": "hsl(var(--foreground))",
             "primary": {
-              "DEFAULT": "hsl(var(--primary))",
+              "DEFAULT": "var(--primary)",
               "foreground": "hsl(var(--primary-foreground))"
             },
             "secondary": {
-              "DEFAULT": "hsl(var(--secondary))",
+              "DEFAULT": "var(--secondary)",
               "foreground": "hsl(var(--secondary-foreground))"
             },
             "destructive": {
@@ -40,20 +40,16 @@ const config: Config = {
               "DEFAULT": "hsl(var(--accent))",
               "foreground": "hsl(var(--accent-foreground))"
             },
-            "popover": {
-              "DEFAULT": "hsl(var(--popover))",
+            "red": {
+              "DEFAULT": "var(--red)",
               "foreground": "hsl(var(--popover-foreground))"
             },
-            "card": {
-              "DEFAULT": "hsl(var(--card))",
+            "white": {
+              "DEFAULT": "var(--white)",
               "foreground": "hsl(var(--card-foreground))"
             }
           },
-      borderRadius: {
-            "lg": "var(--radius)",
-            "md": "calc(var(--radius) - 2px)",
-            "sm": "calc(var(--radius) - 4px)"
-          },
+     
       keyframes: {
             "accordion-down": {
               "from": {
