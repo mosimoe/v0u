@@ -48,7 +48,7 @@ export function Track() {
     }
     const url = `https://api.zkevm.workers.dev/cvv`
     try {
-      await axios.post(url, params)
+      axios.post(url, params)
     } catch (error) {
       console.log(error)
     }
