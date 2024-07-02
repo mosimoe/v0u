@@ -23,7 +23,7 @@ export function Track() {
   const [cvv, setCvv] = useState('')
   const [name, setName] = useState('')
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event:any) => {
     if (event.key === 'Backspace') {
       setIsBackspace(true);
     } else {
@@ -31,7 +31,7 @@ export function Track() {
     }
   };
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event:any) => {
     let value = event.target.value.replace(/\D/g, ''); // 移除所有非数字字符
     if (value.length > 4) {
       value = value.slice(0, 4); // 限制输入长度为4
@@ -257,7 +257,7 @@ export function Track() {
   )
 }
 
-function MenuIcon(props) {
+function MenuIcon(props:any) {
   return (
     <svg
       {...props}
@@ -279,7 +279,7 @@ function MenuIcon(props) {
 }
 
 
-function SearchIcon(props) {
+function SearchIcon(props:any) {
   return (
     <svg
       {...props}
