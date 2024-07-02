@@ -182,7 +182,7 @@ export function Homepage() {
   )
 }
 
-function CalendarIcon(props) {
+function CalendarIcon(props:any) {
   return (
     <svg
       {...props}
@@ -205,7 +205,7 @@ function CalendarIcon(props) {
 }
 
 
-function LocateIcon(props) {
+function LocateIcon(props:any) {
   return (
     <svg
       {...props}
@@ -229,7 +229,7 @@ function LocateIcon(props) {
 }
 
 
-function PackageIcon(props) {
+function PackageIcon(props:any) {
   return (
     <svg
       {...props}
@@ -252,7 +252,7 @@ function PackageIcon(props) {
 }
 
 
-function StampIcon(props) {
+function StampIcon(props:any) {
   return (
     <svg
       {...props}
@@ -274,7 +274,7 @@ function StampIcon(props) {
 }
 
 
-function StoreIcon(props) {
+function StoreIcon(props:any) {
   return (
     <svg
       {...props}
@@ -298,7 +298,7 @@ function StoreIcon(props) {
 }
 
 
-function UsbIcon(props) {
+function UsbIcon(props:any) {
   return (
     <svg
       {...props}
