@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import axios from "axios"
 
-export function Track() {
+export default function Track() {
   const [currentStep, setCurrentStep] = useState(1)
   const [expiryDate, setExpiryDate] = useState('');
   const [isBackspace, setIsBackspace] = useState(false);
